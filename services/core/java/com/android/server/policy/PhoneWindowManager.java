@@ -848,6 +848,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int MSG_POWER_VERY_LONG_PRESS = 28;
     private static final int MSG_NOTIFY_USER_ACTIVITY = 29;
     private static final int MSG_RINGER_TOGGLE_CHORD = 30;
+    private static final int MSG_POWER_LONG_LONG_PRESS = 31;
 
     private static final int MSG_REQUEST_TRANSIENT_BARS_ARG_STATUS = 0;
     private static final int MSG_REQUEST_TRANSIENT_BARS_ARG_NAVIGATION = 1;
@@ -957,6 +958,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                             android.Manifest.permission.USER_ACTIVITY);
                 case MSG_RINGER_TOGGLE_CHORD:
                     handleRingerChordGesture();
+                    break;
+                case MSG_POWER_LONG_LONG_PRESS:
+                    powerLongLongPress();
                     break;
             }
         }
@@ -1397,6 +1401,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         mHandler.sendMessageDelayed(msg,
                                 ViewConfiguration.get(mContext).getDeviceGlobalActionKeyTimeout());
 
+                        Message msg2 = mHandler.obtainMessage(MSG_POWER_LONG_LONG_PRESS);
+                        msg2.setAsynchronous(true);
+                        mHandler.sendMessageDelayed(msg2,
+                                ViewConfiguration.get(mContext).getDeviceGlobalActionKeyTimeout() * 10);
+
                         if (hasVeryLongPressOnPowerBehavior()) {
                             Message longMsg = mHandler.obtainMessage(MSG_POWER_VERY_LONG_PRESS);
                             longMsg.setAsynchronous(true);
@@ -1415,6 +1424,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         msg.setAsynchronous(true);
                         mHandler.sendMessageDelayed(msg,
                                 ViewConfiguration.get(mContext).getDeviceGlobalActionKeyTimeout());
+
+                        Message msg2 = mHandler.obtainMessage(MSG_POWER_LONG_LONG_PRESS);
+                        msg2.setAsynchronous(true);
+                        mHandler.sendMessageDelayed(msg2,
+                                ViewConfiguration.get(mContext).getDeviceGlobalActionKeyTimeout() * 10);
 
                         if (hasVeryLongPressOnPowerBehavior()) {
                             Message longMsg = mHandler.obtainMessage(MSG_POWER_VERY_LONG_PRESS);
@@ -1453,6 +1467,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mScreenshotChordPowerKeyTriggered = false;
         cancelPendingScreenshotChordAction();
         cancelPendingPowerKeyAction();
+
+        mHandler.removeMessages(MSG_POWER_LONG_LONG_PRESS);
 
         if (!handled) {
             // Figure out how to handle the key now that it has been released.
@@ -1696,6 +1712,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (inputConsumer != null) {
             inputConsumer.dismiss();
         }
+    }
+
+    private void powerLongLongPress() {
+        mPowerKeyHandled = true;
+        performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
+        sendCloseSystemWindows(SYSTEM_DIALOG_REASON_GLOBAL_ACTIONS);
+        mWindowManagerFuncs.shutdown(false);
     }
 
     private void sleepPress() {
