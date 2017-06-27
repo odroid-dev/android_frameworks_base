@@ -6548,6 +6548,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     "android.policy:MOTION");
         }
 
+        if (!mPowerManager.isInteractive()) {
+            wakeUp(whenNanos / 1000000, mAllowTheaterModeWakeFromMotion,
+                    "android.policy:MOTION");
+        }
         return 0;
     }
 
