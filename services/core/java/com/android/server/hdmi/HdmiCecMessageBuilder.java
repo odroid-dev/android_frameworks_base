@@ -83,6 +83,19 @@ public class HdmiCecMessageBuilder {
     }
 
     /**
+     * Build &lt;Give Deck Status&gt; command.
+     *
+     * @param src source address of command
+     * @param dest destination address of command
+     * @param status deck status parameter of command
+     * @return newly created {@link HdmiCecMessage}
+     */
+    static HdmiCecMessage buildGiveDeckStatus(int src, int dest, int status) {
+        byte[] params = {(byte)(status & 0xFF)};
+        return buildCommand(src,dest, Constants.MESSAGE_DECK_STATUS, params);
+    }
+
+    /**
      * Build &lt;Give Vendor Id Command&gt; command.
      *
      * @param src source address of command

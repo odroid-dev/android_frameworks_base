@@ -310,7 +310,17 @@ final class HdmiCecLocalDevicePlayback extends HdmiCecLocalDevice {
     @ServiceThreadOnly
     protected boolean handleRequestActiveSource(HdmiCecMessage message) {
         assertRunOnServiceThread();
-        maySendActiveSource(message.getSource());
+
+        int deviceType = HdmiUtils.getTypeFromAddress(message.getSource());
+
+        if (mbusDeviceVendorId[deviceType] == VENDOR_LG) {
+            int physicalAddress = mDeviceInfo.getPhysicalAddress();
+            maySetActiveSource(physicalAddress);
+            maySendActiveSource(message.getSource());
+        } else {
+            maySendActiveSource(message.getSource());
+        }
+
         return true;  // Broadcast message.
     }
 

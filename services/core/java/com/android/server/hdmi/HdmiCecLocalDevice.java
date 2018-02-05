@@ -17,6 +17,7 @@
 package com.android.server.hdmi;
 
 import android.hardware.hdmi.HdmiDeviceInfo;
+import android.hardware.hdmi.HdmiControlManager;
 import android.hardware.input.InputManager;
 import android.os.Handler;
 import android.os.Looper;
@@ -59,6 +60,12 @@ abstract class HdmiCecLocalDevice {
     protected HdmiDeviceInfo mDeviceInfo;
     protected int mLastKeycode = HdmiCecKeycode.UNSUPPORTED_KEYCODE;
     protected int mLastKeyRepeatCount = 0;
+
+    // bus device
+    // vendor id
+    protected static final int VENDOR_LG = 0x00E091;
+    // busDevice Vendor Id
+    protected static int[] mbusDeviceVendorId = new int[16];
 
     static class ActiveSource {
         int logicalAddress;
@@ -254,6 +261,10 @@ abstract class HdmiCecLocalDevice {
                 return handleGivePhysicalAddress();
             case Constants.MESSAGE_GIVE_OSD_NAME:
                 return handleGiveOsdName(message);
+            case Constants.MESSAGE_GIVE_DECK_STATUS:
+                return handleGiveDeckStatus(message);
+            case Constants.MESSAGE_DEVICE_VENDOR_ID:
+                return handleDeviceVendorId(message);
             case Constants.MESSAGE_GIVE_DEVICE_VENDOR_ID:
                 return handleGiveDeviceVendorId();
             case Constants.MESSAGE_GET_CEC_VERSION:
@@ -334,6 +345,38 @@ abstract class HdmiCecLocalDevice {
         HdmiCecMessage cecMessage = HdmiCecMessageBuilder.buildReportPhysicalAddressCommand(
                 mAddress, physicalAddress, mDeviceType);
         mService.sendCecCommand(cecMessage);
+        return true;
+    }
+
+    @ServiceThreadOnly
+    protected boolean handleGiveDeckStatus(HdmiCecMessage message) {
+        assertRunOnServiceThread();
+        int deviceType = HdmiUtils.getTypeFromAddress(message.getSource());
+        switch (mbusDeviceVendorId[deviceType]) {
+            case VENDOR_LG:
+                byte[] status_request = message.getParams();
+                if (status_request[0] == Constants.STATUS_REQUEST_ON) {
+                HdmiCecMessage cecMessage = HdmiCecMessageBuilder.buildGiveDeckStatus(
+                        message.getDestination(), message.getSource(), Constants.DECK_INFO_OTHER_STATUS_LG);
+                mService.sendCecCommand(cecMessage);
+                }
+                else if (status_request[0] == Constants.STATUS_REQUEST_ONCE) {
+                HdmiCecMessage cecMessage = HdmiCecMessageBuilder.buildGiveDeckStatus(
+                        message.getDestination(), message.getSource(), Constants.DECK_INFO_OTHER_STATUS_LG);
+                mService.sendCecCommand(cecMessage);
+                }
+                break;
+        }
+        return true;
+    }
+
+    @ServiceThreadOnly
+    protected boolean handleDeviceVendorId(HdmiCecMessage message) {
+        assertRunOnServiceThread();
+        // setVendorId
+        int deviceType = HdmiUtils.getTypeFromAddress(message.getSource());
+        int vendorId = HdmiUtils.threeBytesToInt(message.getParams());
+        mbusDeviceVendorId[deviceType] = vendorId;
         return true;
     }
 
@@ -551,11 +594,35 @@ abstract class HdmiCecLocalDevice {
     }
 
     protected boolean handleVendorCommand(HdmiCecMessage message) {
-        if (!mService.invokeVendorCommandListenersOnReceived(mDeviceType, message.getSource(),
-                message.getDestination(), message.getParams(), false)) {
-            // Vendor command listener may not have been registered yet. Respond with
-            // <Feature Abort> [NOT_IN_CORRECT_MODE] so that the sender can try again later.
-            mService.maySendFeatureAbortCommand(message, Constants.ABORT_NOT_IN_CORRECT_MODE);
+        int deviceType = HdmiUtils.getTypeFromAddress(message.getSource());
+        switch (mbusDeviceVendorId[deviceType]) {
+            case VENDOR_LG:
+                /* Lg simplink */
+                byte params[] = message.getParams();
+                switch (params[0]) {
+                    case Constants.COMMAND_INIT:
+                        {
+                            byte build_params[] = {Constants.COMMAND_ACK_INIT, Constants.COMMAND_TYPE_HDDRECORDER};
+                            mService.sendCecCommand(HdmiCecMessageBuilder.buildVendorCommand(message.getDestination(),
+                                        message.getSource(), build_params));
+                            break;
+                        }
+                    case Constants.COMMAND_CONNECT_REQUEST:
+                        {
+                            byte build_params[] = {Constants.COMMAND_SET_DEVICE_MODE, Constants.ADDR_PLAYBACK_1};
+                            mService.sendCecCommand(HdmiCecMessageBuilder.buildVendorCommand(message.getDestination(),
+                                        message.getSource(), build_params));
+                            break;
+                        }
+                }
+                break;
+            default:
+                if (!mService.invokeVendorCommandListenersOnReceived(mDeviceType, message.getSource(),
+                        message.getDestination(), message.getParams(), false)) {
+                    // Vendor command listener may not have been registered yet. Respond with
+                    // <Feature Abort> [NOT_IN_CORRECT_MODE] so that the sender can try again later.
+                    mService.maySendFeatureAbortCommand(message, Constants.ABORT_NOT_IN_CORRECT_MODE);
+                }
         }
         return true;
     }
@@ -599,7 +666,12 @@ abstract class HdmiCecLocalDevice {
     }
 
     protected boolean handleReportPowerStatus(HdmiCecMessage message) {
-        return false;
+        if (message.getSource() == 0) {
+            byte[] params = message.getParams();
+            byte powerStatus = (byte)mService.getPowerStatus();
+            mService.standby();
+        }
+        return true;
     }
 
     protected boolean handleTimerStatus(HdmiCecMessage message) {
