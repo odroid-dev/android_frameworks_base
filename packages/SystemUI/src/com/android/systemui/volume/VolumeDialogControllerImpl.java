@@ -386,10 +386,11 @@ public class VolumeDialogControllerImpl implements VolumeDialogController, Dumpa
         updateStatusBar();
         // if status bar isn't null, check if phone is in AOD, else check flags
         // since we could be using a different status bar
-        // ODROID always show volume UI.
         return mStatusBar != null ?
-                mStatusBar.getWakefulnessState() != 
+                mStatusBar.getWakefulnessState() != WakefulnessLifecycle.WAKEFULNESS_ASLEEP
+                && mStatusBar.getWakefulnessState() !=
                         WakefulnessLifecycle.WAKEFULNESS_GOING_TO_SLEEP
+                && mStatusBar.isDeviceInteractive()
                 && (flags & AudioManager.FLAG_SHOW_UI) != 0 && mShowVolumeDialog
                 : mShowVolumeDialog && (flags & AudioManager.FLAG_SHOW_UI) != 0;
     }
