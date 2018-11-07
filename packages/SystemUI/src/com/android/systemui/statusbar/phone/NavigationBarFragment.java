@@ -769,6 +769,9 @@ public class NavigationBarFragment extends Fragment implements Callbacks {
         screenshotButton.setOnTouchListener(this::onScreenshotTouch);
         screenshotButton.setVisibility(View.VISIBLE);
 
+        ButtonDispatcher poweroffButton = mNavigationBarView.getPoweroffButton();
+        poweroffButton.setVisibility(View.VISIBLE);
+
         ButtonDispatcher accessibilityButton = mNavigationBarView.getAccessibilityButton();
         accessibilityButton.setOnClickListener(this::onAccessibilityClick);
         accessibilityButton.setOnLongClickListener(this::onAccessibilityLongClick);
