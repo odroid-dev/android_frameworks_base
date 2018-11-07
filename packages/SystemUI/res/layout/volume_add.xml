@@ -14,15 +14,15 @@
      limitations under the License.
 -->
 <com.android.systemui.statusbar.policy.KeyButtonView
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:systemui="http://schemas.android.com/apk/res-auto"
-	android:id="@+id/volume_add"
-	android:layout_width="@dimen/navigation_key_width"
-	android:layout_height="match_parent"
-	android:layout_weight="0"
-	systemui:keyCode="24"
-	android:scaleType="center"
-	android:contentDescription="@string/accessibility_home"
-	android:paddingStart="@dimen/navigation_key_padding"
-	android:paddingEnd="@dimen/navigation_key_padding"
-	/>
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:systemui="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/volume_add"
+    android:layout_width="@dimen/navigation_key_width"
+    android:layout_height="match_parent"
+    android:layout_weight="0"
+    systemui:keyCode="24"
+    android:scaleType="center"
+    android:contentDescription="@string/accessibility_home"
+    android:paddingStart="@dimen/navigation_key_padding"
+    android:paddingEnd="@dimen/navigation_key_padding"
+    />

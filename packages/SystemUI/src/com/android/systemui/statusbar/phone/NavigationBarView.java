@@ -126,6 +126,7 @@ public class NavigationBarView extends FrameLayout implements PluginListener<Nav
     private KeyButtonDrawable mRecentIcon;
     private KeyButtonDrawable mVolumeAddIcon;
     private KeyButtonDrawable mVolumeSubIcon;
+    private KeyButtonDrawable mScreenshotIcon;
     private KeyButtonDrawable mDockedIcon;
     private KeyButtonDrawable mImeIcon;
     private KeyButtonDrawable mMenuIcon;
@@ -297,6 +298,7 @@ public class NavigationBarView extends FrameLayout implements PluginListener<Nav
         mButtonDispatchers.put(R.id.ime_switcher, new ButtonDispatcher(R.id.ime_switcher));
         mButtonDispatchers.put(R.id.volume_add, new ButtonDispatcher(R.id.volume_add));
         mButtonDispatchers.put(R.id.volume_sub, new ButtonDispatcher(R.id.volume_sub));
+        mButtonDispatchers.put(R.id.screenshot , new ButtonDispatcher(R.id.screenshot));
         mButtonDispatchers.put(R.id.accessibility_button,
                 new ButtonDispatcher(R.id.accessibility_button));
         mButtonDispatchers.put(R.id.rotate_suggestion,
@@ -432,6 +434,10 @@ public class NavigationBarView extends FrameLayout implements PluginListener<Nav
         return mButtonDispatchers.get(R.id.volume_sub);
     }
 
+    public ButtonDispatcher getScreenshotButton() {
+        return mButtonDispatchers.get(R.id.screenshot);
+    }
+
     public ButtonDispatcher getAccessibilityButton() {
         return mButtonDispatchers.get(R.id.accessibility_button);
     }
@@ -501,6 +507,7 @@ public class NavigationBarView extends FrameLayout implements PluginListener<Nav
 
             mVolumeAddIcon = getDrawable(lightContext, darkContext, R.drawable.ic_sysbar_volume_add);
             mVolumeSubIcon = getDrawable(lightContext, darkContext, R.drawable.ic_sysbar_volume_sub);
+            mScreenshotIcon = getDrawable(lightContext, darkContext, R.drawable.capture);
             mAccessibilityIcon = getDrawable(lightContext, darkContext,
                     R.drawable.ic_sysbar_accessibility_button, false /* hasShadow */);
 
@@ -645,6 +652,7 @@ public class NavigationBarView extends FrameLayout implements PluginListener<Nav
 
         getVolumeAddButton().setImageDrawable(mVolumeAddIcon);
         getVolumeSubButton().setImageDrawable(mVolumeSubIcon);
+        getScreenshotButton().setImageDrawable(mScreenshotIcon);
 
         // Update IME button visibility, a11y and rotate button always overrides the appearance
         final boolean showImeButton =
@@ -1226,6 +1234,7 @@ public class NavigationBarView extends FrameLayout implements PluginListener<Nav
         dumpButton(pw, "menu", getMenuButton());
         dumpButton(pw, "a11y", getAccessibilityButton());
 
+        dumpButton(pw, "screenshot", getScreenshotButton());
         mRecentsOnboarding.dump(pw);
 
         pw.println("    }");

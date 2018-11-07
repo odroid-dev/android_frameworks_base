@@ -16,11 +16,11 @@
 <com.android.systemui.statusbar.policy.KeyButtonView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:systemui="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/volume_sub"
+    android:id="@+id/screenshot"
     android:layout_width="@dimen/navigation_key_width"
     android:layout_height="match_parent"
     android:layout_weight="0"
-    systemui:keyCode="25"
+    systemui:keyCode="120"
     android:scaleType="center"
     android:contentDescription="@string/accessibility_home"
     android:paddingStart="@dimen/navigation_key_padding"
