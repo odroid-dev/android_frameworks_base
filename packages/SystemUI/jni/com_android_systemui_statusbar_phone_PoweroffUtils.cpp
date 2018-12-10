@@ -1,15 +1,16 @@
 //#include <jni.h>
-#include <JNIHelp.h>
+#include <nativehelper/JNIHelp.h>
 #include <utils/Log.h>
 #include <stdio.h>
 #include <string.h>
 
 #define POWEROFF_NODE   "/sys/class/odroid/poweroff_trigger"
+#undef LOG_TAG
 #define LOG_TAG "PowerOff-JNI"
 
 namespace android {
 
-static void native_Poweroff(JNIEnv* env, jobject obj) {
+static void native_Poweroff(JNIEnv* /*env*/, jobject /*obj*/) {
     FILE *fp = NULL;
     fp = fopen(POWEROFF_NODE, "w");
 
@@ -40,7 +41,7 @@ int register_com_android_systemui_statusbar_policy(JNIEnv *env) {
 
 } // namespace android
 
-int JNI_OnLoad(JavaVM *jvm, void* reserved) {
+int JNI_OnLoad(JavaVM *jvm, void* /*reserved*/) {
     JNIEnv *env;
 
     if (jvm->GetEnv((void**)&env, JNI_VERSION_1_6)) {
