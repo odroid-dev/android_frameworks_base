@@ -511,10 +511,14 @@ public class NavigationBarView extends FrameLayout implements PluginListener<Nav
             mRecentIcon = getDrawable(lightContext, darkContext, R.drawable.ic_sysbar_recent);
             mMenuIcon = getDrawable(lightContext, darkContext, R.drawable.ic_sysbar_menu);
 
-            mVolumeAddIcon = getDrawable(lightContext, darkContext, R.drawable.ic_sysbar_volume_add);
-            mVolumeSubIcon = getDrawable(lightContext, darkContext, R.drawable.ic_sysbar_volume_sub);
-            mScreenshotIcon = getDrawable(lightContext, darkContext, R.drawable.capture);
-            mPoweroffIcon = getDrawable(lightContext, darkContext, R.drawable.ic_sysbar_poweroff);
+            mVolumeAddIcon = getDrawable(ctx,
+                    R.drawable.ic_sysbar_volume_add, R.drawable.ic_sysbar_volume_add_dark);
+            mVolumeSubIcon = getDrawable(ctx,
+                    R.drawable.ic_sysbar_volume_sub, R.drawable.ic_sysbar_volume_sub_dark);
+            mScreenshotIcon = getDrawable(ctx,
+                    R.drawable.capture, R.drawable.capture_dark);
+            mPoweroffIcon = getDrawable(ctx,
+                    R.drawable.ic_sysbar_poweroff, R.drawable.ic_sysbar_poweroff_dark);
             mAccessibilityIcon = getDrawable(lightContext, darkContext,
                     R.drawable.ic_sysbar_accessibility_button, false /* hasShadow */);
 
