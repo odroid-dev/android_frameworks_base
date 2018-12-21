@@ -1315,7 +1315,7 @@ public final class HdmiControlService extends SystemService {
         @Override
         public void sendKeyEvent(final int deviceType, final int keyCode, final boolean isPressed) {
             enforceAccessPermission();
-            runOnServiceThread(new Runnable() {
+            runOnServiceThreadAtFrontOfQueue(new Runnable() {
                 @Override
                 public void run() {
                     HdmiMhlLocalDeviceStub device = mMhlController.getLocalDevice(mActivePortId);
@@ -2068,6 +2068,10 @@ public final class HdmiControlService extends SystemService {
         return mWakeUpMessageReceived;
     }
 
+    boolean isStandbyMessageReceived() {
+        return mStandbyMessageReceived;
+    }
+
     @ServiceThreadOnly
     private void onWakeUp() {
         assertRunOnServiceThread();
@@ -2092,12 +2096,17 @@ public final class HdmiControlService extends SystemService {
         mPowerStatus = HdmiControlManager.POWER_STATUS_TRANSIENT_TO_STANDBY;
         invokeVendorCommandListenersOnControlStateChanged(false,
                 HdmiControlManager.CONTROL_STATE_CHANGED_REASON_STANDBY);
-        if (!canGoToStandby()) {
+
+        final List<HdmiCecLocalDevice> devices = getAllLocalDevices();
+
+        if ((STANDBY_SHUTDOWN == standbyAction) ||(!isStandbyMessageReceived() && !canGoToStandby())) {
             mPowerStatus = HdmiControlManager.POWER_STATUS_STANDBY;
+            for (HdmiCecLocalDevice device : devices) {
+                device.onStandby(mStandbyMessageReceived, standbyAction);
+            }
             return;
         }
 
-        final List<HdmiCecLocalDevice> devices = getAllLocalDevices();
         disableDevices(new PendingActionClearedCallback() {
             @Override
             public void onCleared(HdmiCecLocalDevice device) {
