@@ -765,8 +765,6 @@ public class NavigationBarFragment extends Fragment implements Callbacks {
         volumeSubButton.setVisibility(View.VISIBLE);
 
         ButtonDispatcher screenshotButton = mNavigationBarView.getScreenshotButton();
-        screenshotButton.setOnClickListener(this::onScreenshotClick);
-        screenshotButton.setOnTouchListener(this::onScreenshotTouch);
         screenshotButton.setVisibility(View.VISIBLE);
 
         ButtonDispatcher poweroffButton = mNavigationBarView.getPoweroffButton();
@@ -864,19 +862,6 @@ public class NavigationBarFragment extends Fragment implements Callbacks {
         }
         mStatusBar.awakenDreams();
         mCommandQueue.toggleRecentApps();
-    }
-
-    private boolean onScreenshotTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            KeyButtonView keyButtonView = (KeyButtonView) v;
-            keyButtonView.sendEvent(KeyEvent.ACTION_DOWN, KeyEvent.FLAG_FROM_SYSTEM);
-        }
-        return false;
-    }
-
-    private void onScreenshotClick(View v) {
-        KeyButtonView keyButtonView = (KeyButtonView) v;
-        keyButtonView.sendEvent(KeyEvent.ACTION_DOWN, KeyEvent.FLAG_FROM_SYSTEM);
     }
 
     private boolean onLongPressBackHome(View v) {
