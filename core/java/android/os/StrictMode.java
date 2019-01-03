@@ -1975,7 +1975,7 @@ public final class StrictMode {
     public static void onFileUriExposed(Uri uri, String location) {
         final String message = uri + " exposed beyond app through " + location;
         if ((sVmPolicy.mask & PENALTY_DEATH_ON_FILE_URI_EXPOSURE) != 0) {
-            throw new FileUriExposedException(message);
+            Log.d(TAG, message);
         } else {
             onVmPolicyViolation(new FileUriExposedViolation(message));
         }
