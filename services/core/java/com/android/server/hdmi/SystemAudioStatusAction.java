@@ -47,9 +47,7 @@ final class SystemAudioStatusAction extends HdmiCecFeatureAction {
     boolean start() {
         mState = STATE_WAIT_FOR_REPORT_AUDIO_STATUS;
         addTimer(mState, HdmiConfig.TIMEOUT_MS);
-        if (!tv().isBluetoothOrUsbOutDevices()) {
-            sendGiveAudioStatus();
-        }
+        sendGiveAudioStatus();
         return true;
     }
 
@@ -70,10 +68,8 @@ final class SystemAudioStatusAction extends HdmiCecFeatureAction {
         // the audio amplifier is unknown.
         tv().setAudioStatus(false, Constants.UNKNOWN_VOLUME);
 
-        if (!tv().isBluetoothOrUsbOutDevices() && !tv().isSystemAudioActivated()) {
-            sendUserControlPressedAndReleased(mAvrAddress,
-                    HdmiCecKeycode.getMuteKey(!tv().isSystemAudioActivated()));
-        }
+        sendUserControlPressedAndReleased(mAvrAddress,
+                HdmiCecKeycode.getMuteKey(!tv().isSystemAudioActivated()));
 
         // Still return SUCCESS to callback.
         finishWithCallback(HdmiControlManager.RESULT_SUCCESS);
