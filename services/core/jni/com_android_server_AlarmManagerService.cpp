@@ -260,7 +260,7 @@ static bool rtc_is_hctosys(unsigned int rtc_id)
     else if (err == 0)
         ALOGE("%s did not have expected contents", hctosys_path.string());
     else
-        ret = hctosys;
+        ret = 1; //ignore /sys/class/rtc/rtc0/hctosys node
 
     fclose(file);
     return ret;
