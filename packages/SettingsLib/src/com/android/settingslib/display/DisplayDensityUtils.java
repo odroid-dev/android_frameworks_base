@@ -30,7 +30,6 @@ import android.util.MathUtils;
 import android.view.Display;
 import android.view.IWindowManager;
 import android.view.WindowManagerGlobal;
-import android.view.WindowManager;
 
 import java.util.Arrays;
 
@@ -127,17 +126,7 @@ public class DisplayDensityUtils {
                     currentDensityIndex = curIndex;
                 }
                 entries[curIndex] = res.getString(SUMMARIES_SMALLER[i]);
-
-                //Set the density lower than the system provides for lower resolution.
-                Display d = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-                int height = d.getHeight();
-                if (height <= 480)
-                    values[curIndex] = 120;
-                else if (height <= 720)
-                    values[curIndex] = 160;
-                else
-                    values[curIndex] = density;
-
+                values[curIndex] = density;
                 curIndex++;
             }
         }
