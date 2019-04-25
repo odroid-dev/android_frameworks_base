@@ -19,8 +19,6 @@ import static android.app.StatusBarManager.NAVIGATION_HINT_IME_SHOWN;
 import static android.app.StatusBarManager.WINDOW_STATE_SHOWING;
 import static android.app.StatusBarManager.windowStateToString;
 
-import static com.android.internal.view.RotationPolicy.NATURAL_ROTATION;
-
 import static com.android.systemui.shared.system.NavigationBarCompat.InteractionType;
 import static com.android.systemui.statusbar.phone.BarTransitions.MODE_SEMI_TRANSPARENT;
 import static com.android.systemui.statusbar.phone.StatusBar.DEBUG_WINDOW_STATE;
@@ -231,13 +229,6 @@ public class NavigationBarFragment extends Fragment implements Callbacks {
         }
 
         mRotationLockController = Dependency.get(RotationLockController.class);
-
-        // Reset user rotation pref to match that of the WindowManager if starting in locked mode
-        // This will automatically happen when switching from auto-rotate to locked mode
-        if (mRotationLockController.isRotationLocked()) {
-            final int winRotation = mWindowManager.getDefaultDisplay().getRotation();
-            mRotationLockController.setRotationLockedAtAngle(true, winRotation);
-        }
 
         // Register the task stack listener
         mTaskStackListener = new TaskStackListenerImpl();
@@ -1090,9 +1081,9 @@ public class NavigationBarFragment extends Fragment implements Callbacks {
         }
 
         private boolean shouldOverrideUserLockPrefs(final int rotation) {
-            // Only override user prefs when returning to the natural rotation (normally portrait).
+            // Only override user prefs when returning to portrait.
             // Don't let apps that force landscape or 180 alter user lock.
-            return rotation == NATURAL_ROTATION;
+            return rotation == Surface.ROTATION_0;
         }
     };
 

@@ -41,8 +41,7 @@ import com.android.internal.R;
 public final class RotationPolicy {
     private static final String TAG = "RotationPolicy";
     private static final int CURRENT_ROTATION = -1;
-
-    public static final int NATURAL_ROTATION = Surface.ROTATION_0;
+    private static final int NATURAL_ROTATION = Surface.ROTATION_0;
 
     private RotationPolicy() {
     }
