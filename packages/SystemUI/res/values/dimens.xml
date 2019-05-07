@@ -213,7 +213,7 @@
     <dimen name="global_screenshot_bg_padding">20dp</dimen>
 
     <!-- The width of the view containing navigation buttons -->
-    <dimen name="navigation_key_width">70dp</dimen>
+    <dimen name="navigation_key_width">35dp</dimen>
 
     <dimen name="navigation_key_padding">0dp</dimen>
 
