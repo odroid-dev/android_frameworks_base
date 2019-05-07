@@ -586,6 +586,10 @@ final class HdmiCecLocalDeviceTv extends HdmiCecLocalDevice {
         HdmiDeviceInfo deviceInfo = new HdmiDeviceInfo(address, path, getPortId(path), type,
                 Constants.UNKNOWN_VENDOR_ID, HdmiUtils.getDefaultDeviceName(address));
         addCecDevice(deviceInfo);
+        if (HdmiUtils.getTypeFromAddress(address)
+            == HdmiDeviceInfo.DEVICE_AUDIO_SYSTEM) {
+            onNewAvrAdded(deviceInfo);
+        }
         startNewDeviceAction(ActiveSource.of(address, path), type);
         return true;
     }
