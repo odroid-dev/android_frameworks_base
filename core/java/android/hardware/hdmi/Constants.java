@@ -234,31 +234,6 @@ final class Constants {
     static final int MESSAGE_CDC_MESSAGE = 0xF8;
     static final int MESSAGE_ABORT = 0xFF;
 
-    /** LG Vendor commands */
-    static final int COMMAND_INIT = 0x01;
-    static final int COMMAND_ACK_INIT = 0x02;
-    static final int COMMAND_POWER_ON = 0x03;
-    static final int COMMAND_CONNECT_REQUEST = 0x04;
-    static final int COMMAND_SET_DEVICE_MODE = 0x05;
-    static final int COMMAND_REQUEST_RECONNECT = 0x0B;
-    static final int COMMAND_REQUEST_POWER_STATUS = 0xA0;
-
-    /** LG Device Types */
-    static final int COMMAND_TYPE_HDDRECORDER_DISC = 0x01;
-    static final int COMMAND_TYPE_VCR = 0x02;
-    static final int COMMAND_TYPE_DVDPLAYER = 0x03;
-    static final int COMMAND_TYPE_HDDRECORDER_DISC2 = 0x04;
-    static final int COMMAND_TYPE_HDDRECORDER = 0x05;
-
-        /** Deck status requests */
-    static final int STATUS_REQUEST_ON = 1;
-    static final int STATUS_REQUEST_OFF = 2;
-    static final int STATUS_REQUEST_ONCE = 3;
-
-    /** Deck info */
-    static final int DECK_INFO_OTHER_STATUS = 0x1F;
-    static final int DECK_INFO_OTHER_STATUS_LG = 0x20;
-
     static final int UNKNOWN_VENDOR_ID = 0xFFFFFF;
 
     static final int TRUE = 1;

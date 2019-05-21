@@ -68,6 +68,7 @@ import android.util.Slog;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 import com.android.internal.annotations.GuardedBy;
+import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.util.DumpUtils;
 import com.android.internal.util.IndentingPrintWriter;
 import com.android.server.SystemService;
@@ -188,6 +189,9 @@ public final class HdmiControlService extends SystemService {
 
     // Used to synchronize the access to the service.
     private final Object mLock = new Object();
+
+    @GuardedBy("mLock")
+    private int mPhysicalAddress = Constants.INVALID_PHYSICAL_ADDRESS;
 
     // Type of logical devices hosted in the system. Stored in the unmodifiable list.
     private final List<Integer> mLocalDevices;
@@ -555,6 +559,15 @@ public final class HdmiControlService extends SystemService {
         Global.putInt(cr, key, toInt(value));
     }
 
+    void writeStringSystemProperty(String key, String value) {
+        SystemProperties.set(key, value);
+    }
+
+    @VisibleForTesting
+    boolean readBooleanSystemProperty(String key, boolean defVal) {
+        return SystemProperties.getBoolean(key, defVal);
+    }
+
     private void initializeCec(int initiatedBy) {
         mAddressAllocated = false;
         mCecController.setOption(OptionKey.SYSTEM_CEC_CONTROL, true);
@@ -653,6 +666,10 @@ public final class HdmiControlService extends SystemService {
         assertRunOnServiceThread();
         HdmiPortInfo[] cecPortInfo = null;
 
+        synchronized (mLock) {
+            mPhysicalAddress = getPhysicalAddress();
+        }
+
         // CEC HAL provides majority of the info while MHL does only MHL support flag for
         // each port. Return empty array if CEC HAL didn't provide the info.
         if (mCecController != null) {
@@ -728,13 +745,34 @@ public final class HdmiControlService extends SystemService {
     }
 
     /**
-     * Returns the id of HDMI port located at the top of the hierarchy of
-     * the specified routing path. For the routing path 0x1220 (1.2.2.0), for instance,
-     * the port id to be returned is the ID associated with the port address
-     * 0x1000 (1.0.0.0) which is the topmost path of the given routing path.
+     * Returns the id of HDMI port located at the current device that runs this method.
+     *
+     * For TV with physical address 0x0000, target device 0x1120, we want port physical address
+     * 0x1000 to get the correct port id from {@link #mPortIdMap}. For device with Physical Address
+     * 0x2000, target device 0x2420, we want port address 0x24000 to get the port id.
+     *
+     * <p>Return {@link Constants#INVALID_PORT_ID} if target device does not connect to.
+     *
+     * @param path the target device's physical address.
+     * @return the id of the port that the target device eventually connects to
+     * on the current device.
      */
     int pathToPortId(int path) {
-        int portAddress = path & Constants.ROUTING_PATH_TOP_MASK;
+        int mask = 0xF000;
+        int finalMask = 0xF000;
+        int physicalAddress;
+        synchronized (mLock) {
+            physicalAddress = mPhysicalAddress;
+        }
+        int maskedAddress = physicalAddress;
+
+        while (maskedAddress != 0) {
+            maskedAddress = physicalAddress & mask;
+            finalMask |= mask;
+            mask >>= 4;
+        }
+
+        int portAddress = path & finalMask;
         return mPortIdMap.get(portAddress, Constants.INVALID_PORT_ID);
     }
 
@@ -1297,17 +1335,24 @@ public final class HdmiControlService extends SystemService {
                         return;
                     }
                     HdmiCecLocalDeviceTv tv = tv();
-                    if (tv == null) {
-                        if (!mAddressAllocated) {
-                            mSelectRequestBuffer.set(SelectRequestBuffer.newPortSelect(
-                                    HdmiControlService.this, portId, callback));
-                            return;
-                        }
-                        Slog.w(TAG, "Local tv device not available");
-                        invokeCallback(callback, HdmiControlManager.RESULT_SOURCE_NOT_AVAILABLE);
+                    if (tv != null) {
+                        tv.doManualPortSwitching(portId, callback);
                         return;
                     }
-                    tv.doManualPortSwitching(portId, callback);
+                    HdmiCecLocalDeviceAudioSystem audioSystem = audioSystem();
+                    if (audioSystem != null) {
+                        audioSystem.doManualPortSwitching(portId, callback);
+                        return;
+                    }
+
+                    if (!mAddressAllocated) {
+                        mSelectRequestBuffer.set(SelectRequestBuffer.newPortSelect(
+                                HdmiControlService.this, portId, callback));
+                        return;
+                    }
+                    Slog.w(TAG, "Local device not available");
+                    invokeCallback(callback, HdmiControlManager.RESULT_SOURCE_NOT_AVAILABLE);
+                    return;
                 }
             });
         }
@@ -1322,6 +1367,18 @@ public final class HdmiControlService extends SystemService {
                     if (device != null) {
                         device.sendKeyEvent(keyCode, isPressed);
                         return;
+                    }
+                    if (deviceType == HdmiDeviceInfo.DEVICE_PURE_CEC_SWITCH) {
+                        HdmiCecLocalDeviceTv tv = tv();
+                        if (tv != null) {
+                            tv.sendKeyEvent(keyCode, isPressed);
+                            return;
+                        }
+                        HdmiCecLocalDeviceAudioSystem audioSystem = audioSystem();
+                        if (audioSystem != null) {
+                            audioSystem.sendKeyEvent(keyCode, isPressed);
+                            return;
+                        }
                     }
                     if (mCecController != null) {
                         HdmiCecLocalDevice localDevice = mCecController.getLocalDevice(deviceType);
@@ -1464,10 +1521,17 @@ public final class HdmiControlService extends SystemService {
         public List<HdmiDeviceInfo> getDeviceList() {
             enforceAccessPermission();
             HdmiCecLocalDeviceTv tv = tv();
-            synchronized (mLock) {
-                return (tv == null)
+            if (tv != null) {
+                synchronized (mLock) {
+                    return tv.getSafeCecDevicesLocked();
+                }
+            } else {
+                HdmiCecLocalDeviceAudioSystem audioSystem = audioSystem();
+                synchronized (mLock) {
+                    return (audioSystem == null)
                         ? Collections.<HdmiDeviceInfo>emptyList()
-                        : tv.getSafeCecDevicesLocked();
+                        : audioSystem.getSafeCecDevicesLocked();
+                }
             }
         }
 
@@ -1998,6 +2062,10 @@ public final class HdmiControlService extends SystemService {
         return mLocalDevices.contains(HdmiDeviceInfo.DEVICE_TV);
     }
 
+    boolean isAudioSystemDevice() {
+        return mLocalDevices.contains(HdmiDeviceInfo.DEVICE_AUDIO_SYSTEM);
+    }
+
     boolean isTvDeviceEnabled() {
         return isTvDevice() && tv() != null;
     }
@@ -2005,6 +2073,11 @@ public final class HdmiControlService extends SystemService {
     private HdmiCecLocalDevicePlayback playback() {
         return (HdmiCecLocalDevicePlayback)
                 mCecController.getLocalDevice(HdmiDeviceInfo.DEVICE_PLAYBACK);
+    }
+
+    public HdmiCecLocalDeviceAudioSystem audioSystem() {
+        return (HdmiCecLocalDeviceAudioSystem) mCecController.getLocalDevice(
+                HdmiDeviceInfo.DEVICE_AUDIO_SYSTEM);
     }
 
     AudioManager getAudioManager() {
