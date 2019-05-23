@@ -6921,8 +6921,7 @@ public class AudioService extends IAudioService.Stub
     private int mSafeUsbMediaVolumeIndex;
     // mSafeMediaVolumeDevices lists the devices for which safe media volume is enforced,
     private final int mSafeMediaVolumeDevices = AudioSystem.DEVICE_OUT_WIRED_HEADSET |
-                                                AudioSystem.DEVICE_OUT_WIRED_HEADPHONE |
-                                                AudioSystem.DEVICE_OUT_USB_HEADSET;
+                                                AudioSystem.DEVICE_OUT_WIRED_HEADPHONE;
     // mMusicActiveMs is the cumulative time of music activity since safe volume was disabled.
     // When this time reaches UNSAFE_VOLUME_MUSIC_ACTIVE_MS_MAX, the safe media volume is re-enabled
     // automatically. mMusicActiveMs is rounded to a multiple of MUSIC_ACTIVE_POLL_PERIOD_MS.
@@ -6935,11 +6934,7 @@ public class AudioService extends IAudioService.Stub
         if ((device & mSafeMediaVolumeDevices) == 0) {
             return MAX_STREAM_VOLUME[AudioSystem.STREAM_MUSIC];
         }
-        if (device == AudioSystem.DEVICE_OUT_USB_HEADSET) {
-            return mSafeUsbMediaVolumeIndex;
-        } else {
-            return mSafeMediaVolumeIndex;
-        }
+        return mSafeMediaVolumeIndex;
     }
 
     private void setSafeMediaVolumeEnabled(boolean on, String caller) {
