@@ -172,9 +172,7 @@
     <string name="carrier_network_change_mode" msgid="8149202439957837762">"Operadorearen sarea aldatzen"</string>
     <string name="accessibility_battery_details" msgid="7645516654955025422">"Ireki bateriaren xehetasunak"</string>
     <string name="accessibility_battery_level" msgid="7451474187113371965">"Bateriaren karga: <xliff:g id="NUMBER">%d</xliff:g>."</string>
-    <!-- String.format failed for translation -->
-    <!-- no translation found for accessibility_battery_level_charging (1147587904439319646) -->
-    <skip />
+    <string name="accessibility_battery_level_charging" msgid="1147587904439319646">"Kargatzen ari da bateria. %% <xliff:g id="BATTERY_PERCENTAGE">%d</xliff:g> arte kargatu da oraingoz."</string>
     <string name="accessibility_settings_button" msgid="799583911231893380">"Sistemaren ezarpenak."</string>
     <string name="accessibility_notifications_button" msgid="4498000369779421892">"Jakinarazpenak."</string>
     <string name="accessibility_overflow_action" msgid="5681882033274783311">"Ikusi jakinarazpen guztiak"</string>
@@ -524,7 +522,6 @@
     <string name="quick_settings_reset_confirmation_title" msgid="748792586749897883">"<xliff:g id="TILE_LABEL">%1$s</xliff:g> ezkutatu nahi duzu?"</string>
     <string name="quick_settings_reset_confirmation_message" msgid="2235970126803317374">"Ezarpenetan aktibatzen duzun hurrengoan agertuko da berriro."</string>
     <string name="quick_settings_reset_confirmation_button" msgid="2660339101868367515">"Ezkutatu"</string>
-    <string name="managed_profile_foreground_toast" msgid="5421487114739245972">"Work profila erabiltzen ari zara"</string>
     <string name="stream_voice_call" msgid="4410002696470423714">"Deia"</string>
     <string name="stream_system" msgid="7493299064422163147">"Sistema"</string>
     <string name="stream_ring" msgid="8213049469184048338">"Jo tonua"</string>
@@ -564,8 +561,8 @@
     <string name="status_bar" msgid="4877645476959324760">"Egoera-barra"</string>
     <string name="overview" msgid="4018602013895926956">"Ikuspegi orokorra"</string>
     <string name="demo_mode" msgid="2532177350215638026">"Sistemaren erabiltzaile-interfazearen demo modua"</string>
-    <string name="enable_demo_mode" msgid="4844205668718636518">"Gaitu proba modua"</string>
-    <string name="show_demo_mode" msgid="2018336697782464029">"Erakutsi proba modua"</string>
+    <string name="enable_demo_mode" msgid="4844205668718636518">"Gaitu demo modua"</string>
+    <string name="show_demo_mode" msgid="2018336697782464029">"Erakutsi demo modua"</string>
     <string name="status_bar_ethernet" msgid="5044290963549500128">"Ethernet"</string>
     <string name="status_bar_alarm" msgid="8536256753575881818">"Alarma"</string>
     <string name="status_bar_work" msgid="6022553324802866373">"Work profila"</string>
@@ -801,6 +798,9 @@
     <string name="high_temp_title" msgid="4589508026407318374">"Berotzen ari da telefonoa"</string>
     <string name="high_temp_notif_message" msgid="5642466103153429279">"Eginbide batzuk ezingo dira erabili telefonoa hoztu arte"</string>
     <string name="high_temp_dialog_message" msgid="6840700639374113553">"Telefonoa automatikoki saiatuko da hozten. Hoztu bitartean, telefonoa erabiltzen jarrai dezakezu, baina mantsoago funtziona lezake.\n\nTelefonoaren tenperatura jaitsi bezain laster, ohi bezala funtzionatzen jarraituko du."</string>
+    <string name="high_temp_alarm_title" msgid="442812040762745210">"Deskonektatu kargagailua"</string>
+    <string name="high_temp_alarm_notify_message" msgid="519359725058131592">"Arazo bat izan da gailua kargatzean. Deskonektatu egokigailua eta kontuz ibili, kablea bero egon baitaiteke."</string>
+    <string name="high_temp_alarm_help_care_steps" msgid="3631075329318070726">"Ikusi zaintzeko urratsak"</string>
     <string name="lockscreen_shortcut_left" msgid="2182769107618938629">"Ezkerreko lasterbidea"</string>
     <string name="lockscreen_shortcut_right" msgid="3328683699505226536">"Eskuineko lasterbidea"</string>
     <string name="lockscreen_unlock_left" msgid="2043092136246951985">"Ezkerreko lasterbideak desblokeatzeko ere balio du"</string>

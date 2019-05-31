@@ -69,15 +69,15 @@
     <string name="usb_debugging_secondary_user_message" msgid="6067122453571699801">"Ընթացիկ հաշվի օգտատերը չի կարող միացնել USB վրիպազերծումը: Այս գործառույթը միացնելու համար մուտք գործեք հիմնական օգտատիրոջ հաշվով:"</string>
     <string name="compat_mode_on" msgid="6623839244840638213">"Խոշորացնել` էկրանը լցնելու համար"</string>
     <string name="compat_mode_off" msgid="4434467572461327898">"Ձգել` էկրանը լցնելու համար"</string>
-    <string name="global_action_screenshot" msgid="8329831278085426283">"Էկրանի պատկեր"</string>
-    <string name="screenshot_saving_ticker" msgid="7403652894056693515">"Էկրանի պատկերը պահվում է…"</string>
-    <string name="screenshot_saving_title" msgid="8242282144535555697">"Էկրանի պատկերը պահվում է..."</string>
-    <string name="screenshot_saved_title" msgid="5637073968117370753">"Էկրանի պատկերը պահվեց"</string>
-    <string name="screenshot_saved_text" msgid="7574667448002050363">"Հպեք՝ էկրանի պատկերը տեսնելու համար"</string>
-    <string name="screenshot_failed_title" msgid="7612509838919089748">"Չհաջողվեց պահել էկրանի պատկերը"</string>
+    <string name="global_action_screenshot" msgid="8329831278085426283">"Սքրինշոթ"</string>
+    <string name="screenshot_saving_ticker" msgid="7403652894056693515">"Սքրինշոթը պահվում է…"</string>
+    <string name="screenshot_saving_title" msgid="8242282144535555697">"Սքրինշոթը պահվում է..."</string>
+    <string name="screenshot_saved_title" msgid="5637073968117370753">"Սքրինշոթը պահվեց"</string>
+    <string name="screenshot_saved_text" msgid="7574667448002050363">"Հպեք՝ սքրինշոթը տեսնելու համար"</string>
+    <string name="screenshot_failed_title" msgid="7612509838919089748">"Չհաջողվեց պահել սքրինշոթը"</string>
     <string name="screenshot_failed_to_save_unknown_text" msgid="3637758096565605541">"Փորձեք նորից"</string>
-    <string name="screenshot_failed_to_save_text" msgid="3041612585107107310">"Չհաջողվեց պահել էկրանի պատկերը անբավարար հիշողության պատճառով"</string>
-    <string name="screenshot_failed_to_capture_text" msgid="173674476457581486">"Հավելվածը կամ ձեր կազմակերպությունը չի թույլատրում էկրանի պատկերի ստացումը"</string>
+    <string name="screenshot_failed_to_save_text" msgid="3041612585107107310">"Չհաջողվեց պահել սքրինշոթը անբավարար հիշողության պատճառով"</string>
+    <string name="screenshot_failed_to_capture_text" msgid="173674476457581486">"Հավելվածը կամ ձեր կազմակերպությունը չի թույլատրում սքրինշոթի ստացումը"</string>
     <string name="usb_preference_title" msgid="6551050377388882787">"USB ֆայլերի փոխանցման ընտրանքներ"</string>
     <string name="use_mtp_button_title" msgid="4333504413563023626">"Միացնել որպես մեդիա նվագարկիչ (MTP)"</string>
     <string name="use_ptp_button_title" msgid="7517127540301625751">"Միացնել որպես ֆոտոխցիկ (PTP)"</string>
@@ -522,7 +522,6 @@
     <string name="quick_settings_reset_confirmation_title" msgid="748792586749897883">"Թաքցնե՞լ <xliff:g id="TILE_LABEL">%1$s</xliff:g>-ը:"</string>
     <string name="quick_settings_reset_confirmation_message" msgid="2235970126803317374">"Այն դարձյալ կհայտնվի, երբ նորից միացնեք կարգավորումներում:"</string>
     <string name="quick_settings_reset_confirmation_button" msgid="2660339101868367515">"Թաքցնել"</string>
-    <string name="managed_profile_foreground_toast" msgid="5421487114739245972">"Դուք օգտագործում եք ձեր աշխատանքային պրոֆիլը"</string>
     <string name="stream_voice_call" msgid="4410002696470423714">"Զանգ"</string>
     <string name="stream_system" msgid="7493299064422163147">"Համակարգ"</string>
     <string name="stream_ring" msgid="8213049469184048338">"Զանգ"</string>
@@ -578,12 +577,12 @@
     <string name="accessibility_status_bar_hotspot" msgid="4099381329956402865">"Թեժ կետ"</string>
     <string name="accessibility_managed_profile" msgid="6613641363112584120">"Աշխատանքային պրոֆիլ"</string>
     <string name="tuner_warning_title" msgid="7094689930793031682">"Զվարճանք մեկ՝ որոշակի մարդու համար"</string>
-    <string name="tuner_warning" msgid="8730648121973575701">"Համակարգի ՕՄ-ի ընդունիչը հնարավորություն է տալիս հարմարեցնել Android-ի օգտատիրոջ միջերեսը: Այս փորձնական գործառույթները կարող են հետագա թողարկումների մեջ փոփոխվել, խափանվել կամ ընդհանրապես չհայտնվել: Եթե շարունակում եք, զգուշացեք:"</string>
+    <string name="tuner_warning" msgid="8730648121973575701">"Համակարգի ՕՄ-ի կարգավորիչը հնարավորություն է տալիս հարմարեցնել Android-ի օգտատիրոջ միջերեսը: Այս փորձնական գործառույթները կարող են հետագա թողարկումների մեջ փոփոխվել, խափանվել կամ ընդհանրապես չհայտնվել: Եթե շարունակում եք, զգուշացեք:"</string>
     <string name="tuner_persistent_warning" msgid="8597333795565621795">"Այս փորձնական գործառույթները կարող են հետագա թողարկումների մեջ փոփոխվել, խափանվել կամ ընդհանրապես չհայտնվել: Եթե շարունակում եք, զգուշացեք:"</string>
     <string name="got_it" msgid="2239653834387972602">"Եղավ"</string>
-    <string name="tuner_toast" msgid="603429811084428439">"Համակարգի ՕՄ-ի ընդունիչը ավելացվել է կարգավորումներին"</string>
+    <string name="tuner_toast" msgid="603429811084428439">"Համակարգի ՕՄ-ի կարգավորիչը ավելացվել է կարգավորումներին"</string>
     <string name="remove_from_settings" msgid="8389591916603406378">"Հեռացնել կարգավորումներից"</string>
-    <string name="remove_from_settings_prompt" msgid="6069085993355887748">"Հեռացնե՞լ Համակարգի ՕՄ-ի ընդունիչը կարգավորումներից և չօգտվել այլևս նրա գործառույթներից:"</string>
+    <string name="remove_from_settings_prompt" msgid="6069085993355887748">"Հեռացնե՞լ Համակարգի ՕՄ-ի կարգավորիչը կարգավորումներից և չօգտվել այլևս նրա գործառույթներից:"</string>
     <string name="activity_not_found" msgid="348423244327799974">"Հավելվածը տեղադրված չէ սարքի վրա"</string>
     <string name="clock_seconds" msgid="7689554147579179507">"Ցույց տալ ժամացույցի վայրկյանները"</string>
     <string name="clock_seconds_desc" msgid="6282693067130470675">"Ցույց տալ ժամացույցի վայրկյանները կարգավիճակի տողում: Կարող է ազդել մարտկոցի աշխատանքի ժամանակի վրա:"</string>
@@ -799,6 +798,9 @@
     <string name="high_temp_title" msgid="4589508026407318374">"Հեռախոսը տաքանում է"</string>
     <string name="high_temp_notif_message" msgid="5642466103153429279">"Հովանալու ընթացքում հեռախոսի որոշ գործառույթներ սահմանափակ են"</string>
     <string name="high_temp_dialog_message" msgid="6840700639374113553">"Ձեր հեռախոսն ավտոմատ կերպով կփորձի hովանալ: Կարող եք շարունակել օգտագործել հեռախոսը, սակայն հնարավոր է, որ այն ավելի դանդաղ աշխատի:\n\nՀովանալուց հետո հեռախոսը կաշխատի կանոնավոր կերպով:"</string>
+    <string name="high_temp_alarm_title" msgid="442812040762745210">"Անջատեք լիցքավորիչը հոսանքից"</string>
+    <string name="high_temp_alarm_notify_message" msgid="519359725058131592">"Չհաջողվեց փոխել սարքը: Անջատեք հոսանքի ադապտերը և ուշադիր եղեք՝ մալուխը կարող է տաքացած լինել:"</string>
+    <string name="high_temp_alarm_help_care_steps" msgid="3631075329318070726">"Քայլեր գերտաքացման ահազանգի դեպքում"</string>
     <string name="lockscreen_shortcut_left" msgid="2182769107618938629">"Ձախ դյուրանցում"</string>
     <string name="lockscreen_shortcut_right" msgid="3328683699505226536">"Աջ դյուրանցում"</string>
     <string name="lockscreen_unlock_left" msgid="2043092136246951985">"Ձախ դյուրանցումը նաև ապակողպում է"</string>
@@ -815,7 +817,7 @@
     <string name="tuner_app" msgid="3507057938640108777">"<xliff:g id="APP">%1$s</xliff:g> հավելված"</string>
     <string name="notification_channel_alerts" msgid="4496839309318519037">"Ծանուցումներ"</string>
     <string name="notification_channel_battery" msgid="5786118169182888462">"Մարտկոց"</string>
-    <string name="notification_channel_screenshot" msgid="6314080179230000938">"Էկրանի պատկերներ"</string>
+    <string name="notification_channel_screenshot" msgid="6314080179230000938">"Սքրինշոթներ"</string>
     <string name="notification_channel_general" msgid="4525309436693914482">"Ընդհանուր հաղորդագրություններ"</string>
     <string name="notification_channel_storage" msgid="3077205683020695313">"Տարածք"</string>
     <string name="notification_channel_hints" msgid="7323870212489152689">"Հուշումներ"</string>

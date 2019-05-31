@@ -172,7 +172,7 @@
     <string name="carrier_network_change_mode" msgid="8149202439957837762">"క్యారియర్ నెట్‌వర్క్ మారుతోంది"</string>
     <string name="accessibility_battery_details" msgid="7645516654955025422">"బ్యాటరీ వివరాలను తెరుస్తుంది"</string>
     <string name="accessibility_battery_level" msgid="7451474187113371965">"బ్యాటరీ <xliff:g id="NUMBER">%d</xliff:g> శాతం."</string>
-    <string name="accessibility_battery_level_charging" msgid="1147587904439319646">"బ్యాటరీ ఛార్జ్ అవుతోంది, <xliff:g id="BATTERY_PERCENTAGE">%d</xliff:g> శాతం."</string>
+    <string name="accessibility_battery_level_charging" msgid="1147587904439319646">"బ్యాటరీ ఛార్జ్ అవుతోంది, <xliff:g id="BATTERY_PERCENTAGE">%d</xliff:g> %%."</string>
     <string name="accessibility_settings_button" msgid="799583911231893380">"సిస్టమ్ సెట్టింగ్‌లు."</string>
     <string name="accessibility_notifications_button" msgid="4498000369779421892">"నోటిఫికేషన్‌లు."</string>
     <string name="accessibility_overflow_action" msgid="5681882033274783311">"అన్ని నోటిఫికేషన్‌లను చూడండి"</string>
@@ -522,7 +522,6 @@
     <string name="quick_settings_reset_confirmation_title" msgid="748792586749897883">"<xliff:g id="TILE_LABEL">%1$s</xliff:g>ని దాచాలా?"</string>
     <string name="quick_settings_reset_confirmation_message" msgid="2235970126803317374">"మీరు సెట్టింగ్‌ల్లో దీన్ని ఆన్ చేసిన తదుపరిసారి ఇది కనిపిస్తుంది."</string>
     <string name="quick_settings_reset_confirmation_button" msgid="2660339101868367515">"దాచు"</string>
-    <string name="managed_profile_foreground_toast" msgid="5421487114739245972">"మీరు మీ కార్యాలయ ప్రొఫైల్‌ను ఉపయోగిస్తున్నారు"</string>
     <string name="stream_voice_call" msgid="4410002696470423714">"కాల్"</string>
     <string name="stream_system" msgid="7493299064422163147">"సిస్టమ్"</string>
     <string name="stream_ring" msgid="8213049469184048338">"రింగ్"</string>
@@ -799,6 +798,9 @@
     <string name="high_temp_title" msgid="4589508026407318374">"ఫోన్ వేడెక్కుతోంది"</string>
     <string name="high_temp_notif_message" msgid="5642466103153429279">"ఫోన్‌ను చల్లబరిచే క్రమంలో కొన్ని లక్షణాలు పరిమితం చేయబడ్డాయి"</string>
     <string name="high_temp_dialog_message" msgid="6840700639374113553">"మీ ఫోన్ స్వయంచాలకంగా చల్లబడటానికి ప్రయత్నిస్తుంది. మీరు ఇప్పటికీ మీ ఫోన్‌ను ఉపయోగించవచ్చు, కానీ దాని పనితీరు నెమ్మదిగా ఉండవచ్చు.\n\nమీ ఫోన్ చల్లబడిన తర్వాత, అది సాధారణ రీతిలో పని చేస్తుంది."</string>
+    <string name="high_temp_alarm_title" msgid="442812040762745210">"ప్లగ్ నుండి ఛార్జర్‌ తీసివేయండి"</string>
+    <string name="high_temp_alarm_notify_message" msgid="519359725058131592">"ఛార్జ్‌ అవుతున్నప్పుడు పరికరం నుంచి సాధారణ వేడి కంటే ఎక్కువ వెలువడుతుంది. ఛార్జర్‌ని ప్లగ్ నుండి తీసివేసి, ఛార్జర్ వైర్ ఏమైనా వేడి ఎక్కిందేమో చూసుకుని తగిన జాగ్రత్తలు తీసుకోండి."</string>
+    <string name="high_temp_alarm_help_care_steps" msgid="3631075329318070726">"తీసుకోవాల్సిన జాగ్రత్తలు ఏమిటో చూడండి"</string>
     <string name="lockscreen_shortcut_left" msgid="2182769107618938629">"ఎడమవైపు షార్ట్‌కట్"</string>
     <string name="lockscreen_shortcut_right" msgid="3328683699505226536">"కుడివైపు షార్ట్‌కట్"</string>
     <string name="lockscreen_unlock_left" msgid="2043092136246951985">"ఎడమవైపు షార్ట్‌కట్ కూడా అన్‌లాక్ చేస్తుంది"</string>
