@@ -66,10 +66,12 @@ final class SystemAudioStatusAction extends HdmiCecFeatureAction {
     private void handleSendGiveAudioStatusFailure() {
         // Inform to all application that the audio status (volumn, mute) of
         // the audio amplifier is unknown.
-        tv().setAudioStatus(false, Constants.UNKNOWN_VOLUME);
+        /* tv().setAudioStatus(false, Constants.UNKNOWN_VOLUME);
 
-        sendUserControlPressedAndReleased(mAvrAddress,
-                HdmiCecKeycode.getMuteKey(!tv().isSystemAudioActivated()));
+        if (!tv().isBluetoothOrUsbOutDevices() && !tv().isSystemAudioActivated()) {
+            sendUserControlPressedAndReleased(mAvrAddress,
+                    HdmiCecKeycode.getMuteKey(!tv().isSystemAudioActivated()));
+        } */
 
         // Still return SUCCESS to callback.
         finishWithCallback(HdmiControlManager.RESULT_SUCCESS);
