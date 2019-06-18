@@ -42,7 +42,7 @@ public class UiServiceTestCase {
     }
 
     @Before
-    public void setup() {
+    public final void setup() {
         MockitoAnnotations.initMocks(this);
 
         // Share classloader to allow package access.
