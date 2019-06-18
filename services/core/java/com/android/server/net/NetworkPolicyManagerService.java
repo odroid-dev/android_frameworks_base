@@ -3856,10 +3856,8 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
 
         if (packages != null) {
             for (String packageName : packages) {
-                if (mUsageStats != null) {
-                    if (!mUsageStats.isAppIdle(packageName, uid, userId)) {
-                        return false;
-                    }
+                if (!mUsageStats.isAppIdle(packageName, uid, userId)) {
+                    return false;
                 }
             }
         }
