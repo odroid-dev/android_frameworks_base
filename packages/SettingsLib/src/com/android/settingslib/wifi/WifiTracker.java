@@ -444,7 +444,8 @@ public class WifiTracker implements LifecycleObserver, OnStart, OnStop, OnDestro
 
         // Don't evict old results if no new scan results
         if (!mStaleScanResults) {
-            evictOldScans();
+            // ODROID skip evictOldScans()
+            //evictOldScans();
         }
 
         ArrayMap<String, List<ScanResult>> scanResultsByApKey = new ArrayMap<>();
