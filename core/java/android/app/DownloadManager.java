@@ -170,6 +170,9 @@ public class DownloadManager {
     /** {@hide} */
     public static final String COLUMN_DESTINATION = Downloads.Impl.COLUMN_DESTINATION;
 
+    /** {@hide} */
+    public static final String COLUMN_DESTINATION = Downloads.Impl.COLUMN_DESTINATION;
+
     /**
      * @hide
      */
