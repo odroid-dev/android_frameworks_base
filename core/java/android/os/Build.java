@@ -1006,6 +1006,8 @@ public class Build {
                         + String.valueOf(result));
             }
 
+            /* The ODROID always returns true */
+            result = 0;
             return result == 0;
         }
 
