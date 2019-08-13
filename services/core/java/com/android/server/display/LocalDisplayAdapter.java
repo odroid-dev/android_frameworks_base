@@ -97,6 +97,7 @@ final class LocalDisplayAdapter extends DisplayAdapter {
                 return;
             }
             int activeConfig = SurfaceControl.getActiveConfig(displayToken);
+            Slog.e(TAG,"getactiveconfig id "+activeConfig);
             if (activeConfig < 0) {
                 // There is no active config, and for now we don't have the
                 // policy to set one.
@@ -228,12 +229,14 @@ final class LocalDisplayAdapter extends DisplayAdapter {
                 // If we haven't already added a mode for this configuration to the new set of
                 // supported modes then check to see if we have one in the prior set of supported
                 // modes to reuse.
-                DisplayModeRecord record = findDisplayModeRecord(info);
+                //DisplayModeRecord record = findDisplayModeRecord(info);
+                DisplayModeRecord record = null;
                 if (record == null) {
                     record = new DisplayModeRecord(info);
                     modesAdded = true;
                 }
                 records.add(record);
+                Slog.e(TAG,"mode" + i + "refreshrate" + info.refreshRate + "height " + info.height + "width " + info.width);
             }
 
             // Get the currently active mode
@@ -265,7 +268,8 @@ final class LocalDisplayAdapter extends DisplayAdapter {
             for (DisplayModeRecord record : records) {
                 mSupportedModes.put(record.mMode.getModeId(), record);
             }
-            // Update the default mode, if needed.
+/**
+             // Update the default mode, if needed.
             if (findDisplayInfoIndexLocked(mDefaultModeId) < 0) {
                 if (mDefaultModeId != 0) {
                     Slog.w(TAG, "Default display mode no longer available, using currently"
@@ -282,6 +286,11 @@ final class LocalDisplayAdapter extends DisplayAdapter {
                 mActiveModeId = mDefaultModeId;
                 mActiveModeInvalid = true;
             }
+**/
+            mDefaultModeId = activeRecord.mMode.getModeId();
+            Slog.e(TAG,"defaultmodeid "+mDefaultModeId);
+            mActiveModeId = mDefaultModeId;
+            mActiveModeInvalid = true;
 
             // Schedule traversals so that we apply pending changes.
             sendTraversalRequestLocked();
