@@ -616,6 +616,7 @@ public class SettingsBackupTest {
                  Settings.Secure.LOW_POWER_MANUAL_ACTIVATION_COUNT,
                  Settings.Secure.LOW_POWER_WARNING_ACKNOWLEDGED,
                  Settings.Secure.SUPPRESS_AUTO_BATTERY_SAVER_SUGGESTION,
+                 Settings.Secure.MANAGED_PROVISIONING_DPC_DOWNLOADED,
                  Settings.Secure.PACKAGES_TO_CLEAR_DATA_BEFORE_FULL_RESTORE);
 
     @Test
