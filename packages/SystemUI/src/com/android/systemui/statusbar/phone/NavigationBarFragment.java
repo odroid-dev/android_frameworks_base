@@ -54,6 +54,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
 import android.os.UserHandle;
+import android.os.SystemProperties;
 import android.provider.Settings;
 import android.support.annotation.VisibleForTesting;
 import android.telecom.TelecomManager;
@@ -752,14 +753,17 @@ public class NavigationBarFragment extends Fragment implements Callbacks {
         ButtonDispatcher volumeAddButton = mNavigationBarView.getVolumeAddButton();
         ButtonDispatcher volumeSubButton = mNavigationBarView.getVolumeSubButton();
 
-        volumeAddButton.setVisibility(View.VISIBLE);
-        volumeSubButton.setVisibility(View.VISIBLE);
+        boolean hideCustomButtons = SystemProperties.getBoolean("hide.volume_buttons", false);
+        volumeAddButton.setVisibility(hideCustomButtons ? View.INVISIBLE : View.VISIBLE);
+        volumeSubButton.setVisibility(hideCustomButtons ? View.INVISIBLE : View.VISIBLE);
 
         ButtonDispatcher screenshotButton = mNavigationBarView.getScreenshotButton();
-        screenshotButton.setVisibility(View.VISIBLE);
+        hideCustomButtons = SystemProperties.getBoolean("hide.screenshot_button", false);
+        screenshotButton.setVisibility(hideCustomButtons ? View.INVISIBLE : View.VISIBLE);
 
         ButtonDispatcher poweroffButton = mNavigationBarView.getPoweroffButton();
-        poweroffButton.setVisibility(View.VISIBLE);
+        hideCustomButtons = SystemProperties.getBoolean("hide.poweroff_button", false);
+        poweroffButton.setVisibility(hideCustomButtons ? View.INVISIBLE : View.VISIBLE);
 
         ButtonDispatcher accessibilityButton = mNavigationBarView.getAccessibilityButton();
         accessibilityButton.setOnClickListener(this::onAccessibilityClick);
