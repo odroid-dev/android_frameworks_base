@@ -6504,5 +6504,8 @@ message MetricsEvent {
 
     //Extensions
     EXTENSIONS = 1150;
+
+    // RMS custom constants
+    RMS = 1800;
   }
 }
