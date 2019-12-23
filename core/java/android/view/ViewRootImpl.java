@@ -1753,7 +1753,11 @@ public final class ViewRootImpl implements ViewParent,
             // PixelFormat.hasAlpha(lp.format) || lp.format == PixelFormat.RGBX_8888
             // However, windows are now always 32 bits by default, so choose 32 bits
             mAttachInfo.mUse32BitDrawingCache = true;
-            mAttachInfo.mHasWindowFocus = false;
+            // The mAttachInfo.mHasWindowFocus's value is false by default, so there is
+            // No need to update it again in the first draw process. When the new window
+            // Is changed focus before it is drawn, this can even result in a circumstance
+            // Wherethe new window has no focus and can't dispatch input events.
+            //mAttachInfo.mHasWindowFocus = false;
             mAttachInfo.mWindowVisibility = viewVisibility;
             mAttachInfo.mRecomputeGlobalAttributes = false;
             mLastConfigurationFromResources.setTo(config);
