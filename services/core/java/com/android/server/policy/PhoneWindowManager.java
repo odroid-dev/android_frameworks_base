@@ -2444,11 +2444,16 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         // Allow a system property to override this. Used by the emulator.
         // See also hasNavigationBar().
-        String navBarOverride = SystemProperties.get("qemu.hw.mainkeys");
-        if ("1".equals(navBarOverride)) {
+        boolean kiosk = SystemProperties.getBoolean("kiosk_mode", false);
+        if (kiosk) {
             mHasNavigationBar = false;
-        } else if ("0".equals(navBarOverride)) {
-            mHasNavigationBar = true;
+        } else {
+            String navBarOverride = SystemProperties.get("qemu.hw.mainkeys");
+            if ("1".equals(navBarOverride)) {
+                mHasNavigationBar = false;
+            } else if ("0".equals(navBarOverride)) {
+                mHasNavigationBar = true;
+            }
         }
 
         // For demo purposes, allow the rotation of the HDMI display to be controlled.
