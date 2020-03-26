@@ -909,6 +909,7 @@ final class HdmiCecLocalDeviceTv extends HdmiCecLocalDevice {
                     + "because the System Audio Control feature is disabled.");
             return;
         }
+        if (isBluetoothOrUsbOutDevices() && on) return;
         HdmiLogger.debug("System Audio Mode change[old:%b new:%b]", mSystemAudioActivated, on);
         updateAudioManagerForSystemAudio(on);
         synchronized (mLock) {
@@ -925,13 +926,18 @@ final class HdmiCecLocalDeviceTv extends HdmiCecLocalDevice {
                     }
                 }
                 mSystemAudioActivated = on;
+                mService.writeBooleanSetting(Global.HDMI_SYSTEM_AUDIO_STATUS_ENABLED, on);
+                updateAudioDevicesStatus(on);
                 mService.announceSystemAudioModeChange(on);
             }
-            startArcAction(on);
+            if (!hasAction(SetArcTransmissionStateAction.class)) {
+                startArcAction(on);
+            }
         }
     }
 
     private void updateAudioManagerForSystemAudio(boolean on) {
+        if (isBluetoothOrUsbOutDevices() && on) return;
         int device = mService.getAudioManager().setHdmiSystemAudioSupported(on);
         HdmiLogger.debug("[A]UpdateSystemAudio mode[on=%b] output=[%X]", on, device);
     }
@@ -1039,6 +1045,17 @@ final class HdmiCecLocalDeviceTv extends HdmiCecLocalDevice {
         // 3. Update arc status;
         mArcEstablished = enabled;
         return oldStatus;
+    }
+
+    boolean isBluetoothOrUsbOutDevices() {
+        int device = mService.getAudioManager().getDevicesForStream(AudioSystem.STREAM_MUSIC);
+        boolean isBluetoothOrUsbOutDevices = ((device & AudioSystem.DEVICE_OUT_ALL_A2DP) != 0)
+                || ((device & AudioSystem.DEVICE_OUT_ALL_SCO) != 0)
+                || ((device & AudioSystem.DEVICE_OUT_ALL_USB) != 0);
+        if (isBluetoothOrUsbOutDevices) {
+            mService.writeBooleanSetting(Global.HDMI_SYSTEM_AUDIO_STATUS_ENABLED, false);
+        }
+        return isBluetoothOrUsbOutDevices;
     }
 
     /**

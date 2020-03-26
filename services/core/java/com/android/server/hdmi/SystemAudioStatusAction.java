@@ -47,7 +47,9 @@ final class SystemAudioStatusAction extends HdmiCecFeatureAction {
     boolean start() {
         mState = STATE_WAIT_FOR_REPORT_AUDIO_STATUS;
         addTimer(mState, HdmiConfig.TIMEOUT_MS);
-        sendGiveAudioStatus();
+        if (!tv().isBluetoothOrUsbOutDevices()) {
+            sendGiveAudioStatus();
+        }
         return true;
     }
 
