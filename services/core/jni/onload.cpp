@@ -57,7 +57,6 @@ int register_android_server_net_NetworkStatsService(JNIEnv* env);
 #ifdef USE_ARC
 int register_android_server_ArcVideoService();
 #endif
-int register_google_android_things_odroid(JNIEnv* env);
 };
 
 using namespace android;
@@ -108,6 +107,5 @@ extern "C" jint JNI_OnLoad(JavaVM* vm, void* /* reserved */)
 #ifdef USE_ARC
     register_android_server_ArcVideoService();
 #endif
-    register_google_android_things_odroid(env);
     return JNI_VERSION_1_4;
 }

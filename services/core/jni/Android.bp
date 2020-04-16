@@ -49,7 +49,6 @@ cc_library_static {
         "com_android_server_VibratorService.cpp",
         "com_android_server_PersistentDataBlockService.cpp",
         "com_android_server_GraphicsStatsService.cpp",
-        "com_google_android_things_odroidThingService.cpp",
         "onload.cpp",
     ],
 
