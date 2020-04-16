@@ -22,4 +22,8 @@
     <!-- Google WebView implementation -->
     <webviewprovider description="Google WebView" packageName="com.google.android.webview" availableByDefault="true">
     </webviewprovider>
+
+    <!-- Google Chrome implementation -->
+    <webviewprovider description="Google Chrome" packageName="com.android.chrome" availableByDefault="true">
+    </webviewprovider>
 </webviewproviders>
