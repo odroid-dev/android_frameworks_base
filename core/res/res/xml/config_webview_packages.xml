@@ -15,7 +15,11 @@
 -->
 
 <webviewproviders>
-    <!-- The default WebView implementation -->
-    <webviewprovider description="Android WebView" packageName="com.android.webview" availableByDefault="true">
+    <!-- AOSP WebView implementation -->
+    <webviewprovider description="AOSP WebView" packageName="com.android.webview" availableByDefault="true">
+    </webviewprovider>
+
+    <!-- Google WebView implementation -->
+    <webviewprovider description="Google WebView" packageName="com.google.android.webview" availableByDefault="true">
     </webviewprovider>
 </webviewproviders>
