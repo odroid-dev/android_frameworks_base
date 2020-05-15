@@ -1468,6 +1468,10 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
                         ? mSeparatedView : mListView;
                 View v = mAdapter.getView(i, null, parentView);
                 final int pos = i;
+                if (i == 0) {
+                    v.setFocusableInTouchMode(true);
+                    v.requestFocus();
+                }
                 v.setOnClickListener(view -> mClickListener.onClick(this, pos));
                 v.setOnLongClickListener(view ->
                         mLongClickListener.onItemLongClick(null, v, pos, 0));
