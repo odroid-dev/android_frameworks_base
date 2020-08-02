@@ -452,11 +452,6 @@ public class PackageInstallerService extends IPackageInstaller.Stub {
                     "New installs into ASEC containers no longer supported");
         }
 
-        if (callingUid != Process.SYSTEM_UID) {
-            // Only system_server can use INSTALL_DISABLE_VERIFICATION.
-            params.installFlags &= ~PackageManager.INSTALL_DISABLE_VERIFICATION;
-        }
-
         // Defensively resize giant app icons
         if (params.appIcon != null) {
             final ActivityManager am = (ActivityManager) mContext.getSystemService(
