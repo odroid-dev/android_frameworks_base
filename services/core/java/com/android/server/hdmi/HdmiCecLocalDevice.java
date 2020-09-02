@@ -666,12 +666,7 @@ abstract class HdmiCecLocalDevice {
     }
 
     protected boolean handleReportPowerStatus(HdmiCecMessage message) {
-        if (message.getSource() == 0) {
-            byte[] params = message.getParams();
-            byte powerStatus = (byte)mService.getPowerStatus();
-            mService.standby();
-        }
-        return true;
+        return false;
     }
 
     protected boolean handleTimerStatus(HdmiCecMessage message) {
