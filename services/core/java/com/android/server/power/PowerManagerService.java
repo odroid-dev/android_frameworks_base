@@ -4419,6 +4419,8 @@ public final class PowerManagerService extends SystemService
                 mContext.enforceCallingOrSelfPermission(android.Manifest.permission.RECOVERY, null);
             }
 
+            //Add to command for surely rebooting system.
+            SystemProperties.set("sys.force_reboot", "1");
             final long ident = Binder.clearCallingIdentity();
             try {
                 shutdownOrRebootInternal(HALT_MODE_REBOOT, confirm, reason, wait);
