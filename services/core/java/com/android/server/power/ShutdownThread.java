@@ -233,8 +233,6 @@ public final class ShutdownThread extends Thread {
         mRebootSafeMode = false;
         mRebootHasProgressBar = false;
         mReason = reason;
-        //Add to command for surely rebooting system.
-        SystemProperties.set("sys.force_reboot", "1");
         shutdownInner(context, confirm);
     }
 
