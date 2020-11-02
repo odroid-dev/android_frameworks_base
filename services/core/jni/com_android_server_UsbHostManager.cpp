@@ -21,6 +21,7 @@
 #include <nativehelper/JNIHelp.h>
 #include "android_runtime/AndroidRuntime.h"
 #include "android_runtime/Log.h"
+#include <cutils/properties.h>
 
 #include <stdio.h>
 #include <asm/byteorder.h>
@@ -89,6 +90,7 @@ static int usb_device_added(const char *devAddress, void* clientData) {
 
     usb_device_close(device);
 
+    property_set("ctl.start", "usb_modeswitch");
     return 0;
 }
 
