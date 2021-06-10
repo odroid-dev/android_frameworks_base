@@ -743,20 +743,15 @@ public class KeyguardViewMediator extends SystemUI {
 
         // Assume keyguard is showing (unless it's disabled) until we know for sure, unless Keyguard
         // is disabled.
-        boolean kiosk = SystemProperties.getBoolean("kiosk_mode", false);
-        if (kiosk) {
-            setShowingLocked(false, mAodShowing, mSecondaryDisplayShowing, true);
+        if (mContext.getResources().getBoolean(
+                com.android.keyguard.R.bool.config_enableKeyguardService)) {
+            setShowingLocked(!shouldWaitForProvisioning()
+                    && !mLockPatternUtils.isLockScreenDisabled(
+                            KeyguardUpdateMonitor.getCurrentUser()),
+                    mAodShowing, mSecondaryDisplayShowing, true /* forceCallbacks */);
         } else {
-            if (mContext.getResources().getBoolean(
-                    com.android.keyguard.R.bool.config_enableKeyguardService)) {
-                setShowingLocked(!shouldWaitForProvisioning()
-                        && !mLockPatternUtils.isLockScreenDisabled(
-                                KeyguardUpdateMonitor.getCurrentUser()),
-                        mAodShowing, mSecondaryDisplayShowing, true /* forceCallbacks */);
-            } else {
-                // The system's keyguard is disabled or missing.
-                setShowingLocked(false, mAodShowing, mSecondaryDisplayShowing, true);
-            }
+            // The system's keyguard is disabled or missing.
+            setShowingLocked(false, mAodShowing, mSecondaryDisplayShowing, true);
         }
 
         mStatusBarKeyguardViewManager =
