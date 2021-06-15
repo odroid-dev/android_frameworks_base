@@ -1099,6 +1099,10 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         // Private API call to make the shadows look better for Recents
         ThreadedRenderer.overrideProperty("ambientRatio", String.valueOf(1.5f));
+
+        boolean kiosk = SystemProperties.getBoolean("kiosk_mode", false);
+        if (kiosk)
+            mStatusBarWindow.setVisibility(View.GONE);
     }
 
     protected void createNavigationBar() {
@@ -1108,6 +1112,9 @@ public class StatusBar extends SystemUI implements DemoMode,
                 mNavigationBar.setLightBarController(mLightBarController);
             }
             mNavigationBar.setCurrentSysuiVisibility(mSystemUiVisibility);
+            boolean kiosk = SystemProperties.getBoolean("kiosk_mode", false);
+            if (kiosk)
+                mWindowManager.removeViewImmediate(mNavigationBarView);
         });
     }
 
