@@ -135,6 +135,8 @@ public final class WindowManagerGlobal {
     private static IWindowManager sWindowManagerService;
     private static IWindowSession sWindowSession;
 
+    private boolean kiosk = false;
+
     private final Object mLock = new Object();
 
     private final ArrayList<View> mViews = new ArrayList<View>();
@@ -146,6 +148,7 @@ public final class WindowManagerGlobal {
     private Runnable mSystemPropertyUpdater;
 
     private WindowManagerGlobal() {
+        kiosk = SystemProperties.getBoolean("kiosk_mode", false);
     }
 
     public static void initialize() {
@@ -378,6 +381,8 @@ public final class WindowManagerGlobal {
 
         synchronized (mLock) {
             int index = findViewLocked(view, true);
+            if (index < 0)
+                return;
             ViewRootImpl root = mRoots.get(index);
             mParams.remove(index);
             mParams.add(index, wparams);
@@ -392,6 +397,8 @@ public final class WindowManagerGlobal {
 
         synchronized (mLock) {
             int index = findViewLocked(view, true);
+            if (index < 0)
+                return;
             View curView = mRoots.get(index).getView();
             removeViewLocked(index, immediate);
             if (curView == view) {
@@ -482,7 +489,9 @@ public final class WindowManagerGlobal {
     private int findViewLocked(View view, boolean required) {
         final int index = mViews.indexOf(view);
         if (required && index < 0) {
-            throw new IllegalArgumentException("View=" + view + " not attached to window manager");
+            if (!kiosk) {
+                throw new IllegalArgumentException("View=" + view + " not attached to window manager");
+            }
         }
         return index;
     }
