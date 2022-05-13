@@ -25,6 +25,7 @@ import android.content.res.Resources;
 import android.net.NetworkCapabilities;
 import android.net.wifi.WifiInfo;
 import android.os.UserHandle;
+import android.os.SystemProperties;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Slog;
@@ -170,6 +171,8 @@ public class NetworkNotificationManager {
         if (notifyType == NotificationType.NO_INTERNET && transportType == TRANSPORT_WIFI) {
             title = r.getString(R.string.wifi_no_internet, 0);
             details = r.getString(R.string.wifi_no_internet_detailed);
+            if(SystemProperties.getBoolean("ignore_no_internal", false))
+                return;
         } else if (notifyType == NotificationType.LOST_INTERNET &&
                 transportType == TRANSPORT_WIFI) {
             title = r.getString(R.string.wifi_no_internet, 0);
