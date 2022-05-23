@@ -29,7 +29,7 @@
 #include <map>
 
 #include <vendor/hardkernel/hardware/odroidthings/1.0/IOdroidThings.h>
-#include <vendor/hardkernel/hardware/odroidthings/1.0/IOdroidThingsGpioCallback.h>
+#include <vendor/hardkernel/hardware/odroidthings/1.0/IOdroidThingsCallback.h>
 #if defined(__LP64__)
 #define THINGS_PATH "/system/lib64/hw/odroidThings.so"
 #else
@@ -45,7 +45,7 @@ using android::hardware::Void;
 using android::hardware::hidl_vec;
 
 using IOdroidThings = vendor::hardkernel::hardware::odroidthings::V1_0::IOdroidThings;
-using IOdroidThingsGpioCallback = vendor::hardkernel::hardware::odroidthings::V1_0::IOdroidThingsGpioCallback;
+using IOdroidThingsCallback = vendor::hardkernel::hardware::odroidthings::V1_0::IOdroidThingsCallback;
 using direction_t = vendor::hardkernel::hardware::odroidthings::V1_0::Direction;
 using vendor::hardkernel::hardware::odroidthings::V1_0::Result;
 
@@ -150,7 +150,7 @@ static void setEdgeTriggerType(JNIEnv *env, jobject obj, jint pin, jint edgeTrig
     hal->gpio_setEdgeTriggerType(pin, edgeTriggerType);
 }
 
-class Callback : public IOdroidThingsGpioCallback {
+class Callback : public IOdroidThingsCallback {
     private:
         JavaVM* jvm;
         JNIEnv *env;
@@ -192,7 +192,7 @@ Return<void> Callback::doCallback() {
 
 static void registerCallback(JNIEnv *env, jobject obj, jint pin) {
     sp<IOdroidThings> hal = OdroidThingHal::associate();
-    sp<IOdroidThingsGpioCallback> callback = new Callback(env, pin);
+    sp<IOdroidThingsCallback> callback = new Callback(env, pin);
     hal->gpio_registerCallback(pin, callback);
 }
 
@@ -374,7 +374,57 @@ static jint writeUart(JNIEnv *env, jobject obj, jint idx, jbyteArray buffer, jin
     ret = hal->uart_write(idx, writeBuffer, length);
 
     return ret;
+}
 
+class UartCallback : public IOdroidThingsCallback {
+    private:
+        JavaVM* jvm;
+        JNIEnv *env;
+        int idx;
+        jclass thingsManagerClass;
+        jmethodID cb;
+    public:
+        UartCallback();
+        ~UartCallback();
+        UartCallback(JNIEnv*, int);
+        Return<void> doCallback() override;
+};
+
+UartCallback::UartCallback() {
+    this->env = NULL;
+    this->idx = -1;
+}
+UartCallback::~UartCallback() {
+    this->env = NULL;
+    this->jvm = NULL;
+    this->idx = -1;
+}
+
+UartCallback::UartCallback(JNIEnv *env, int idx) {
+    this->env = env;
+    this->idx= idx;
+    env->GetJavaVM(&jvm);
+    jclass localClass = (*env).FindClass("com/google/android/things/odroid/OdroidThingsManager");
+    thingsManagerClass = (jclass) (*env).NewGlobalRef(localClass);
+    cb = (*env).GetStaticMethodID(thingsManagerClass, "doUartCallback", "(I)V");
+}
+
+Return<void> UartCallback::doCallback() {
+    (*jvm).AttachCurrentThread(&env, NULL);
+    (*env).CallStaticVoidMethod(thingsManagerClass, cb, idx);
+
+    return Void();
+}
+
+static void registerUartCallback(JNIEnv *env, jobject obj, jint idx) {
+    sp<IOdroidThings> hal = OdroidThingHal::associate();
+    sp<IOdroidThingsCallback> callback = new UartCallback(env, idx);
+    hal->uart_registerCallback(idx, callback);
+}
+
+static void unregisterUartCallback(JNIEnv *env, jobject obj, jint idx) {
+    sp<IOdroidThings> hal = OdroidThingHal::associate();
+    hal->uart_unregisterCallback(idx);
 }
 
 static void openSpi(JNIEnv *env, jobject obj, jint idx) {
@@ -601,6 +651,12 @@ static const JNINativeMethod sUartMethods[] = {
     {"_write",
         "(I[BI)I",
         reinterpret_cast<void *>(writeUart)},
+    {"_registerCallback",
+        "(I)V",
+        reinterpret_cast<void *>(registerUartCallback)},
+    {"_unregisterCallback",
+        "(I)V",
+        reinterpret_cast<void *>(unregisterUartCallback)},
 };
 
 static const JNINativeMethod sSpiMethod[] = {
