@@ -171,7 +171,7 @@ public class NetworkNotificationManager {
         if (notifyType == NotificationType.NO_INTERNET && transportType == TRANSPORT_WIFI) {
             title = r.getString(R.string.wifi_no_internet, 0);
             details = r.getString(R.string.wifi_no_internet_detailed);
-            if(SystemProperties.getBoolean("ignore_no_internal", false))
+            if(SystemProperties.getBoolean("ignore_no_internet", false))
                 return;
         } else if (notifyType == NotificationType.LOST_INTERNET &&
                 transportType == TRANSPORT_WIFI) {
