@@ -478,19 +478,22 @@ static jbyteArray readSpi(JNIEnv *env, jobject obj, jint idx, jint length) {
     hidl_vec<uint8_t> rxBuffer;
     uint8_t *retBuffer = NULL;
     jbyteArray retArray;
+    int32_t retLength;
 
-    Return<void> ret = hal->spi_read(idx, length,
+    hal->spi_read(idx, length,
             [&] (int32_t len, hidl_vec<uint8_t> result) {
-                rxBuffer = result;
+                retLength = len;
+                if (len > 0)
+                    rxBuffer = result;
             });
 
-    if (ret.isOk()) {
-        retBuffer = new uint8_t[length];
-        for (int i=0; i < length; i++)
+    if (retLength > 0) {
+        retBuffer = new uint8_t[retLength];
+        for (int i=0; i < retLength; i++)
             retBuffer[i] = rxBuffer[i];
 
         retArray = env->NewByteArray(length);
-        env->SetByteArrayRegion(retArray, 0, length, (jbyte*) retBuffer);
+        env->SetByteArrayRegion(retArray, 0, retLength, (jbyte*) retBuffer);
         delete[] retBuffer;
     } else {
         retArray = env->NewByteArray(0);
