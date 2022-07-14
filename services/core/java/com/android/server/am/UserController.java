@@ -246,7 +246,7 @@ class UserController implements Handler.Callback {
 
     UserController(ActivityManagerService service) {
         this(new Injector(service));
-        mKIOSK = SystemProperties.getBoolean("kiosk_mode", false);
+        mKIOSK = SystemProperties.getBoolean("persist.kiosk_mode", false);
     }
 
     @VisibleForTesting
