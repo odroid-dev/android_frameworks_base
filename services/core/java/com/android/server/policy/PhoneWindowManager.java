@@ -7875,7 +7875,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     if (mContext.getPackageManager().isUpgrade()) {
                         mBootMsgDialog.setTitle(R.string.android_upgrading_title);
                     } else {
-                        boolean mKIOSK = SystemProperties.getBoolean("kiosk_mode", false);
+                        boolean mKIOSK = SystemProperties.getBoolean("persist.kiosk_mode", false);
                         if (!mKIOSK)
                             mBootMsgDialog.setTitle(R.string.android_start_title);
                     }

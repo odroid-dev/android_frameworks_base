@@ -148,7 +148,7 @@ public final class WindowManagerGlobal {
     private Runnable mSystemPropertyUpdater;
 
     private WindowManagerGlobal() {
-        kiosk = SystemProperties.getBoolean("kiosk_mode", false);
+        kiosk = SystemProperties.getBoolean("persist.kiosk_mode", false);
     }
 
     public static void initialize() {
