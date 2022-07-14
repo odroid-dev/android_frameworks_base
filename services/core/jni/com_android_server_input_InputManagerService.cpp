@@ -520,7 +520,7 @@ void NativeInputManager::getReaderConfiguration(InputReaderConfiguration* outCon
         AutoMutex _l(mLock);
 
         char propBuf[PROPERTY_VALUE_MAX];
-        property_get("mouse_acceleration", propBuf, "true");
+        property_get("persist.mouse_acceleration", propBuf, "true");
         if (strcmp(propBuf, "false"))
             POINTER_SPEED_EXPONENT = 0;
         outConfig->pointerVelocityControlParameters.scale = exp2f(mLocked.pointerSpeed
