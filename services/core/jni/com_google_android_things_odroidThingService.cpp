@@ -124,6 +124,17 @@ static jobject getListOf(JNIEnv *env, jobject obj, jint mode) {
 
     return resultArray;
 }
+
+static void openGpio(JNIEnv *env, jobject obj, jint pin) {
+    sp<IOdroidThings> hal = OdroidThingHal::associate();
+    hal->gpio_open(pin);
+}
+
+static void closeGpio(JNIEnv *env, jobject obj, jint pin) {
+    sp<IOdroidThings> hal = OdroidThingHal::associate();
+    hal->gpio_close(pin);
+}
+
 static void setGpioDirection(JNIEnv *env, jobject obj, jint pin, jint direction) {
     sp<IOdroidThings> hal = OdroidThingHal::associate();
     hal->setDirection(pin, (direction_t) direction);
@@ -660,6 +671,12 @@ static const JNINativeMethod sManagerMethods[] = {
 };
 
 static const JNINativeMethod sGpioMethods[] = {
+    {"_open",
+        "(I)V",
+        reinterpret_cast<void *>(openGpio)},
+    {"_close",
+        "(I)V",
+        reinterpret_cast<void *>(closeGpio)},
     {"_setGpioDirection",
         "(II)V",
         reinterpret_cast<void *>(setGpioDirection)},
