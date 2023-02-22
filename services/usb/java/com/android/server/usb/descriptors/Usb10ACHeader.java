@@ -15,6 +15,7 @@
  */
 package com.android.server.usb.descriptors;
 
+//import android.util.Log;
 import com.android.server.usb.descriptors.report.ReportCanvas;
 
 /**
@@ -56,9 +57,12 @@ public final class Usb10ACHeader extends UsbACHeaderInterface {
             mControls = stream.getByte();
         } else {
             mNumInterfaces = stream.getByte();
-            mInterfaceNums = new byte[mNumInterfaces];
-            for (int index = 0; index < mNumInterfaces; index++) {
-                mInterfaceNums[index] = stream.getByte();
+            //Log.w(TAG, "mNumInterfaces = " + mNumInterfaces);
+            if (mNumInterfaces >= 0) {
+                mInterfaceNums = new byte[mNumInterfaces];
+                for (int index = 0; index < mNumInterfaces; index++) {
+                    mInterfaceNums[index] = stream.getByte();
+                }
             }
         }
 
