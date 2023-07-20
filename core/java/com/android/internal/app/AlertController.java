@@ -1046,6 +1046,7 @@ public class AlertController {
                 dialog.setMessage(mMessage);
             }
             if (mPositiveButtonText != null) {
+                mPositiveButtonText += "            ";
                 dialog.setButton(DialogInterface.BUTTON_POSITIVE, mPositiveButtonText,
                         mPositiveButtonListener, null);
             }
